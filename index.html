@@ -1,187 +1,54 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AeroSync Studio - 혁신적인 항공 디지털 도구</title>
-  <style>
-    /* 기본 스타일 (모바일 우선) */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #0f172a; /* 이전의 어두운 배경 유지 */
-      color: #f8fafc; /* 텍스트 색상 */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    a {
-      color: #93c5fd; /* 파란색 강조 유지 */
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AeroSync Studio</title>
 
-    /* 헤더 스타일 */
-    header {
-      width: 100%;
-      max-width: 1200px;
-      text-align: center;
-      padding: 40px 0 20px;
-    }
-    header h1 {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-    }
-    header h2 {
-      font-size: 18px;
-      font-weight: 400;
-      color: #cbd5e1;
-    }
-
-    /* 메인 콘텐츠 스타일 (앱 목록) */
-    main {
-      width: 100%;
-      max-width: 1200px;
-      display: flex;
-      flex-direction: column;
-      gap: 30px; /* 카드 간격 */
-      padding: 20px 0 60px;
-    }
-
-    /* 공통 카드 스타일 (이전 카드 스타일 기반 개선) */
-    .app-card {
-      background: rgba(255, 255, 255, 0.06); /* 이전의 반투명 흰색 유지 */
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-      padding: 30px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-    }
-    .app-icon {
-      margin-bottom: 24px;
-      border-radius: 12px; /* 아이콘 둥글게 */
-    }
-    .app-name {
-      font-size: 24px;
-      margin-bottom: 12px;
-      color: #f8fafc;
-    }
-    .app-slogan {
-      font-size: 16px;
-      color: #93c5fd;
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
-    .app-desc {
-      font-size: 15px;
-      line-height: 1.7;
-      color: #e2e8f0;
-    }
-
-    /* 각 앱 아이콘 스타일 */
-    .roster-sync .app-icon {
-      /* RosterSync 아이콘은 파란색 정사각형이므로 카드 안에서 깨끗하게 표시 */
-      max-width: 120px;
-      height: auto;
-      border-radius: 20px; /* 아이콘 모양에 맞춤 */
-    }
-    .paper-log .app-icon {
-      /* Paper Log 아이콘은 어두운 회색 정사각형이므로 카드 안에서 깨끗하게 표시 */
-      max-width: 120px;
-      height: auto;
-      border-radius: 20px; /* 아이콘 모양에 맞춤 */
-    }
-
-    /* 데스크톱 스타일 미디어 쿼리 (768px 이상) */
-    @media (min-width: 768px) {
-      header {
-        padding: 80px 0 40px;
-      }
-      header h1 {
-        font-size: 48px;
-      }
-      header h2 {
-        font-size: 24px;
-      }
-      main {
-        flex-direction: row; /* 카드를 나란히 배치 */
-        justify-content: center;
-      }
-      .app-card {
-        flex: 1; /* 동일한 너비로 설정 */
-        max-width: 450px;
-        align-items: center;
-        text-align: center;
-        padding: 40px;
-      }
-      .app-name {
-        font-size: 28px;
-      }
-      .app-slogan {
-        font-size: 18px;
-      }
-      .app-desc {
-        font-size: 16px;
-      }
-    }
-
-    /* 푸터 스타일 */
-    footer {
-      width: 100%;
-      max-width: 1200px;
-      text-align: center;
-      padding: 40px 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      font-size: 14px;
-      color: #94a3b8;
-    }
-    footer p {
-      margin-bottom: 8px;
-    }
-  </style>
+<style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    text-align: center;
+    padding: 60px 20px;
+    max-width: 800px;
+    margin: auto;
+}
+h1 {
+    margin-bottom: 10px;
+}
+.app {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+}
+a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #007AFF;
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    <h1>AeroSync Studio</h1>
-    <h2>혁신적인 항공 디지털 도구</h2>
-  </header>
+<h1>AeroSync Studio</h1>
+<p>Flight crew productivity apps</p>
 
-  <main>
-    <section class="app-card roster-sync">
-      <img src="image_0.png" alt="RosterSync 앱 아이콘" class="app-icon">
-      <h2 class="app-name">RosterSync</h2>
-      <p class="app-slogan">항공사 승무원을 위한 스케줄 공유 솔루션</p>
-      <p class="app-desc">RosterSync는 승무원들이 복잡한 스케줄을 쉽게 관리하고, 동료들과 비교하며 공유할 수 있도록 돕습니다. 원활한 팀 소통과 정보 공유를 경험해보세요.</p>
-    </section>
+<div class="app">
+    <h2>Paper Log</h2>
+    <p>Digital pilot logbook with paper-like experience</p>
+    <a href="/apps/paperlog.html">View App</a><br>
+    <a href="/privacy/paperlog.html">Privacy Policy</a>
+</div>
 
-    <section class="app-card paper-log">
-      <img src="image_1.png" alt="Paper Log 앱 아이콘" class="app-icon">
-      <h2 class="app-name">Paper Log</h2>
-      <p class="app-slogan">조종사의 아날로그 로그북을 디지털로 백업</p>
-      <p class="app-desc">Paper Log는 조종사가 소중한 비행 기록을 디지털 형식으로 안전하게 백업하고 필요할 때 언제든지 복원할 수 있도록 지원합니다. 비행 로그를 영구적으로 보존하세요.</p>
-    </section>
-  </main>
-
-<footer>
-  <p>문의: <a href="mailto:contact@aerosyncstudio.kr">contact@aerosyncstudio.kr</a></p>
-  <p><a href="privacy.html" style="font-size: 13px; color: #94a3b8;">개인정보처리방침 (Privacy Policy)</a></p>
-  <p>© 2026 AeroSync Studio. All rights reserved.</p>
-</footer>
+<div class="app">
+    <h2>RosterSync</h2>
+    <p>Crew schedule sharing & comparison tool</p>
+    <a href="/apps/rostersync.html">View App</a><br>
+    <a href="/privacy/rostersync.html">Privacy Policy</a>
+</div>
 
 </body>
 </html>
