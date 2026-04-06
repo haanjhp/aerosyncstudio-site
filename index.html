@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AeroSync Studio - 혁신적인 항공 디지털 도구</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <style>
     /* 기본 스타일 (모바일 우선) */
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,8 +21,6 @@
 
     /* 헤더 스타일 */
     header { width: 100%; max-width: 1200px; text-align: center; padding: 40px 0 20px; display: flex; justify-content: center; }
-    header h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
-    header h2 { font-size: 18px; font-weight: 400; color: #cbd5e1; }
     header svg {
       width: 250px; 
       height: auto; 
@@ -48,7 +49,7 @@
     .app-slogan { font-size: 16px; font-weight: 500; margin-bottom: 16px; opacity: 0.9; }
     .app-desc { font-size: 15px; line-height: 1.6; color: #e2e8f0; margin-bottom: 25px; flex-grow: 1; }
 
-    /* 버튼 레이아웃 수정: 2개 버튼 나란히 */
+    /* 버튼 레이아웃 수정 */
     .app-links { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: auto; }
     .store-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; }
     
@@ -59,6 +60,11 @@
       font-weight: 600; font-size: 14px; transition: background 0.2s;
       text-align: center;
     }
+    /* [핵심 추가] 아이콘 스타일 */
+    .download-btn i {
+      margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
+      font-size: 18px; /* 아이콘 크기 조금 키움 */
+    }
     .privacy-link { font-size: 13px; color: #94a3b8; margin-top: 8px; }
 
     /* 각 앱별 컬러 테마 */
@@ -67,9 +73,13 @@
       border: 1px solid rgba(59, 130, 246, 0.2);
     }
     .roster-sync .app-name, .roster-sync .app-slogan { color: #60a5fa; }
-    .roster-sync .download-btn.apple { background: #3b82f6; color: white; }
-    .roster-sync .download-btn.google { background: rgba(255, 255, 255, 0.1); border: 1px solid #3b82f6; color: #60a5fa; }
-    .roster-sync .download-btn:hover { opacity: 0.8; text-decoration: none; }
+    
+    /* [핵심 수정] 버튼 스타일 고도화 */
+    .roster-sync .download-btn.apple { background: rgba(255, 255, 255, 0.1); border: 1px solid #3b82f6; color: #60a5fa; }
+    .roster-sync .download-btn.apple:hover { background: #3b82f6; color: white; opacity: 1; }
+    
+    .roster-sync .download-btn.google { background: #3b82f6; color: white; }
+    .roster-sync .download-btn.google:hover { opacity: 0.8; text-decoration: none; }
 
     .paper-log {
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1));
@@ -105,7 +115,9 @@
       <p class="app-slogan">파일럿을 위한 프리미엄 디지털 로그북</p>
       <p class="app-desc">조종사의 가장 소중한 비행 기록을 아날로그 감성으로 담아냅니다. FAA 표준부터 국내 라인 양식까지, 스케줄 자동 파싱으로 완벽한 로그를 완성하세요.</p>
       <div class="app-links">
-        <a href="https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846" target="_blank" class="download-btn">App Store</a>
+        <a href="https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846" target="_blank" class="download-btn">
+          <i class="fab fa-apple"></i>App Store
+        </a>
         <a href="privacy-logbook.html" class="privacy-link">개인정보처리방침</a>
       </div>
     </section>
@@ -117,8 +129,12 @@
       <p class="app-desc">항공사 승무원들의 복잡한 스케줄을 쉽게 파싱하고, 동료들과 실시간으로 공유하세요. 이제 iOS와 안드로이드 모두에서 경험할 수 있습니다.</p>
       <div class="app-links">
         <div class="store-buttons">
-          <a href="https://apps.apple.com/app/id6759645143" target="_blank" class="download-btn apple">iOS 앱스토어</a>
-          <a href="https://play.google.com/store/apps/details?id=kr.aerosyncstudio.rostersync" target="_blank" class="download-btn google">Google Play</a>
+          <a href="https://apps.apple.com/app/id6759645143" target="_blank" class="download-btn apple">
+            <i class="fab fa-apple"></i>iOS 앱스토어
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=kr.aerosyncstudio.rostersync" target="_blank" class="download-btn google">
+            <i class="fab fa-google-play"></i>Google Play
+          </a>
         </div>
         <a href="privacy-rostersync.html" class="privacy-link">개인정보처리방침</a>
       </div>
@@ -126,7 +142,7 @@
   </main>
 
   <footer>
-    <p>문의: <a href="mailto:contact@aerosyncstudio.kr">contact@aerosyncstudio.kr</a></p>
+    <p> 문의: <a href="mailto:contact@aerosyncstudio.kr">contact@aerosyncstudio.kr</a></p>
     <p>© 2026 AeroSync Studio. All rights reserved.</p>
   </footer>
 
