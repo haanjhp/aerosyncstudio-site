@@ -21,21 +21,22 @@
     header h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
     header h2 { font-size: 18px; font-weight: 400; color: #cbd5e1; }
     header svg {
-      width: 250px; /* 모바일에서 기존 220보다 키움 */
-      height: auto; /* 비율 유지 */
-      aspect-ratio: 220 / 60; /* 원본 비율 명시 */
+      width: 250px; 
+      height: auto; 
+      aspect-ratio: 220 / 60; 
     }
-    /* 앱 카드 그리드 (데스크탑에서 2개 나란히) */
+
+    /* 앱 카드 그리드 */
     main { width: 100%; max-width: 1200px; display: grid; grid-template-columns: 1fr; gap: 30px; padding: 20px 0 60px; }
     @media (min-width: 768px) {
       main { grid-template-columns: 1fr 1fr; }
       header { padding: 80px 0 40px; }
       header svg { width: 320px; }
-      header h1 { font-size: 40px; }
     }
 
-    /* 개별 앱 카드 공통 스타일 */
+    /* 앱 카드 공통 스타일 */
     .app-card {
+      background: rgba(255, 255, 255, 0.03);
       border-radius: 20px; padding: 30px; text-align: center;
       display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -47,39 +48,40 @@
     .app-slogan { font-size: 16px; font-weight: 500; margin-bottom: 16px; opacity: 0.9; }
     .app-desc { font-size: 15px; line-height: 1.6; color: #e2e8f0; margin-bottom: 25px; flex-grow: 1; }
 
-    /* 앱 링크 버튼 및 프라이버시 링크 영역 */
+    /* 버튼 레이아웃 수정: 2개 버튼 나란히 */
     .app-links { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: auto; }
+    .store-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; }
+    
     .download-btn {
-      display: inline-block; padding: 12px 24px; border-radius: 25px;
-      font-weight: 600; font-size: 15px; transition: background 0.2s;
+      flex: 1; min-width: 160px;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 12px 16px; border-radius: 12px;
+      font-weight: 600; font-size: 14px; transition: background 0.2s;
+      text-align: center;
     }
-    .privacy-link { font-size: 13px; color: #94a3b8; }
-    .privacy-link:hover { color: #f8fafc; }
+    .privacy-link { font-size: 13px; color: #94a3b8; margin-top: 8px; }
 
-    /* 각 앱별 컬러 테마 (Dark) */
+    /* 각 앱별 컬러 테마 */
     .roster-sync {
       background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1));
       border: 1px solid rgba(59, 130, 246, 0.2);
     }
     .roster-sync .app-name, .roster-sync .app-slogan { color: #60a5fa; }
-    .roster-sync .download-btn { background: #3b82f6; color: white; }
-    .roster-sync .download-btn:hover { background: #2563eb; text-decoration: none; }
-    .roster-sync .download-btn.disabled { background: rgba(255,255,255,0.1); color: #94a3b8; cursor: not-allowed; }
+    .roster-sync .download-btn.apple { background: #3b82f6; color: white; }
+    .roster-sync .download-btn.google { background: rgba(255, 255, 255, 0.1); border: 1px solid #3b82f6; color: #60a5fa; }
+    .roster-sync .download-btn:hover { opacity: 0.8; text-decoration: none; }
 
     .paper-log {
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1));
       border: 1px solid rgba(245, 158, 11, 0.2);
     }
     .paper-log .app-name, .paper-log .app-slogan { color: #fbbf24; }
-    .paper-log .download-btn { background: #f59e0b; color: white; }
-    .paper-log .download-btn:hover { background: #d97706; text-decoration: none; }
+    .paper-log .download-btn { background: #f59e0b; color: white; width: 100%; max-width: 200px; }
 
-    /* 푸터 스타일 */
     footer {
       width: 100%; max-width: 1200px; text-align: center; padding: 40px 0;
       border-top: 1px solid rgba(255, 255, 255, 0.06); font-size: 14px; color: #94a3b8;
     }
-    footer p { margin-bottom: 8px; }
   </style>
 </head>
 <body>
@@ -91,13 +93,8 @@
       <circle cx="30" cy="28" r="3" fill="#fbbf24"/>
       <circle cx="20" cy="38" r="2" fill="#f8fafc" opacity="0.6"/>
       <circle cx="40" cy="38" r="2" fill="#f8fafc" opacity="0.6"/>
-      
-      <text x="70" y="35" font-family="-apple-system, sans-serif" font-size="24" font-weight="bold" fill="#f8fafc">
-        AeroSync
-      </text>
-      <text x="70" y="50" font-family="-apple-system, sans-serif" font-size="12" font-weight="300" fill="#94a3b8" letter-spacing="3">
-        STUDIO
-      </text>
+      <text x="70" y="35" font-family="-apple-system, sans-serif" font-size="24" font-weight="bold" fill="#f8fafc">AeroSync</text>
+      <text x="70" y="50" font-family="-apple-system, sans-serif" font-size="12" font-weight="300" fill="#94a3b8" letter-spacing="3">STUDIO</text>
     </svg>
   </header>
 
@@ -106,21 +103,24 @@
       <img src="image_1.png" alt="Paper Log 앱 아이콘" class="app-icon">
       <h2 class="app-name">Paper Log</h2>
       <p class="app-slogan">파일럿을 위한 프리미엄 디지털 로그북</p>
-      <p class="app-desc">조종사의 가장 소중한 비행 기록을 아날로그 감성으로 담아냅니다. FAA 표준부터 국내 라인 양식까지, 스케줄 자동 파싱으로 완벽하고 안전한 비행 로그를 완성하세요.</p>
+      <p class="app-desc">조종사의 가장 소중한 비행 기록을 아날로그 감성으로 담아냅니다. FAA 표준부터 국내 라인 양식까지, 스케줄 자동 파싱으로 완벽한 로그를 완성하세요.</p>
       <div class="app-links">
-        <a href="https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846" target="_blank" class="download-btn">App Store에서 보기</a>
-        <a href="privacy-logbook.html" class="privacy-link">개인정보처리방침 (Privacy Policy)</a>
+        <a href="https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846" target="_blank" class="download-btn">App Store</a>
+        <a href="privacy-logbook.html" class="privacy-link">개인정보처리방침</a>
       </div>
     </section>
 
     <section class="app-card roster-sync">
       <img src="image_0.png" alt="RosterSync 앱 아이콘" class="app-icon">
       <h2 class="app-name">RosterSync</h2>
-      <p class="app-slogan">항공사 승무원을 위한 스케줄 공유 솔루션</p>
-      <p class="app-desc">RosterSync는 승무원들이 복잡한 스케줄을 쉽게 관리하고, 동료들과 비교하며 공유할 수 있도록 돕습니다. 원활한 팀 소통과 정보 공유를 경험해보세요.</p>
+      <p class="app-slogan">안드로이드 버전 정식 출시!</p>
+      <p class="app-desc">항공사 승무원들의 복잡한 스케줄을 쉽게 파싱하고, 동료들과 실시간으로 공유하세요. 이제 iOS와 안드로이드 모두에서 경험할 수 있습니다.</p>
       <div class="app-links">
-        <a href="https://apps.apple.com/app/id6759645143" target="_blank" class="download-btn">App Store에서 보기</a>
-        <a href="privacy-rostersync.html" class="privacy-link">개인정보처리방침 (Privacy Policy)</a>
+        <div class="store-buttons">
+          <a href="https://apps.apple.com/app/id6759645143" target="_blank" class="download-btn apple">iOS 앱스토어</a>
+          <a href="https://play.google.com/store/apps/details?id=kr.aerosyncstudio.rostersync" target="_blank" class="download-btn google">Google Play</a>
+        </div>
+        <a href="privacy-rostersync.html" class="privacy-link">개인정보처리방침</a>
       </div>
     </section>
   </main>
