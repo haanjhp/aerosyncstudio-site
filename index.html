@@ -8,97 +8,111 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <style>
-    /* 기본 스타일 (모바일 우선) */
+    /* 기본 스타일 및 다크 테마 최적화 */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #0f172a; color: #f8fafc;
-      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      background: #020617; /* 더 깊은 심해색으로 변경 */
+      color: #f8fafc;
+      display: flex; flex-direction: column; align-items: center;
       min-height: 100vh; padding: 20px;
+      line-height: 1.5;
     }
-    a { color: #93c5fd; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    a { transition: all 0.2s ease; }
+    
+    /* 배경 그라데이션 효과 */
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% -20%, #1e293b, transparent);
+      z-index: -1;
+    }
 
     /* 헤더 스타일 */
-    header { width: 100%; max-width: 1200px; text-align: center; padding: 40px 0 20px; display: flex; justify-content: center; }
-    header svg {
-      width: 250px; 
-      height: auto; 
-      aspect-ratio: 220 / 60; 
+    header { width: 100%; max-width: 1200px; text-align: center; padding: 60px 0 40px; }
+    header svg { width: 280px; height: auto; filter: drop-shadow(0 0 15px rgba(255,255,255,0.1)); }
+
+    /* 앱 카드 그리드: 3개 앱 대응 */
+    main { 
+      width: 100%; max-width: 1200px; 
+      display: grid; 
+      grid-template-columns: 1fr; 
+      gap: 25px; 
+      padding-bottom: 80px; 
     }
 
-    /* 앱 카드 그리드 */
-    main { width: 100%; max-width: 1200px; display: grid; grid-template-columns: 1fr; gap: 30px; padding: 20px 0 60px; }
     @media (min-width: 768px) {
-      main { grid-template-columns: 1fr 1fr; }
-      header { padding: 80px 0 40px; }
-      header svg { width: 320px; }
+      main { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      main { grid-template-columns: repeat(3, 1fr); } /* 3개 나란히 배치 */
     }
 
-    /* 앱 카드 공통 스타일 */
+    /* 앱 카드 공통 스타일 (Glassmorphism) */
     .app-card {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 20px; padding: 30px; text-align: center;
-      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative; overflow: hidden;
-    }
-    .app-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); }
-    .app-icon { width: 100px; height: 100px; border-radius: 22.5%; margin-bottom: 20px; object-fit: cover; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
-    .app-name { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
-    .app-slogan { font-size: 16px; font-weight: 500; margin-bottom: 16px; opacity: 0.9; }
-    .app-desc { font-size: 15px; line-height: 1.6; color: #e2e8f0; margin-bottom: 25px; flex-grow: 1; }
-
-    /* 버튼 레이아웃 수정 */
-    .app-links { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: auto; }
-    .store-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; }
-    
-    .download-btn {
-      flex: 1; min-width: 160px;
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 12px 16px; border-radius: 12px;
-      font-weight: 600; font-size: 14px; transition: background 0.2s;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 28px; padding: 40px 30px; 
       text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    /* [핵심 추가] 아이콘 스타일 */
-    .download-btn i {
-      margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
-      font-size: 18px; /* 아이콘 크기 조금 키움 */
+    .app-card:hover { 
+      transform: translateY(-10px); 
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
-    .privacy-link { font-size: 13px; color: #94a3b8; margin-top: 8px; }
 
-    /* 각 앱별 컬러 테마 */
-    .roster-sync {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1));
-      border: 1px solid rgba(59, 130, 246, 0.2);
+    .app-icon { 
+      width: 110px; height: 110px; 
+      border-radius: 24px; margin-bottom: 24px; 
+      object-fit: cover; 
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
-    .roster-sync .app-name, .roster-sync .app-slogan { color: #60a5fa; }
-    
-    /* [핵심 수정] 버튼 스타일 고도화 */
-    .roster-sync .download-btn.apple { background: rgba(255, 255, 255, 0.1); border: 1px solid #3b82f6; color: #60a5fa; }
-    .roster-sync .download-btn.apple:hover { background: #3b82f6; color: white; opacity: 1; }
-    
-    .roster-sync .download-btn.google { background: #3b82f6; color: white; }
-    .roster-sync .download-btn.google:hover { opacity: 0.8; text-decoration: none; }
+    .app-name { font-size: 26px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .app-slogan { font-size: 15px; font-weight: 600; margin-bottom: 20px; opacity: 0.8; }
+    .app-desc { font-size: 15px; line-height: 1.7; color: #cbd5e1; margin-bottom: 30px; flex-grow: 1; word-break: keep-all; }
 
-    .paper-log {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1));
-      border: 1px solid rgba(245, 158, 11, 0.2);
+    /* 버튼 시스템 */
+    .app-links { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .download-btn {
+      width: 100%; max-width: 220px;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 14px 20px; border-radius: 14px;
+      font-weight: 700; font-size: 15px; text-decoration: none;
+      transition: all 0.2s;
     }
+    .download-btn i { margin-right: 10px; font-size: 18px; }
+    
+    .privacy-link { font-size: 13px; color: #64748b; text-decoration: none; border-bottom: 1px solid transparent; }
+    .privacy-link:hover { color: #94a3b8; border-color: #475569; }
+
+    /* [1] Paper Log: Gold Gold Theme */
+    .paper-log { border-bottom: 4px solid #f59e0b; }
     .paper-log .app-name, .paper-log .app-slogan { color: #fbbf24; }
-    .paper-log .download-btn { background: #f59e0b; color: white; width: 100%; max-width: 200px; }
+    .paper-log .download-btn { background: #f59e0b; color: #451a03; }
+    .paper-log .download-btn:hover { background: #fbbf24; box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
 
-    .manual-sync {
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.1), rgba(59, 130, 246, 0.1));
-      border: 1px solid rgba(30, 58, 138, 0.2);
-    }
-    .manual-sync .app-name, .manual-sync .app-slogan { color: #60a5fa; }
-    .manual-sync .download-btn.manual { background: #1e40af; color: white; width: 100%; max-width: 200px; }
+    /* [2] RosterSync: Deep Blue Theme */
+    .roster-sync { border-bottom: 4px solid #3b82f6; }
+    .roster-sync .app-name, .roster-sync .app-slogan { color: #60a5fa; }
+    .roster-sync .download-btn { background: #3b82f6; color: white; }
+    .roster-sync .download-btn:hover { background: #60a5fa; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+
+    /* [3] ManualSync: Fresh Teal/Cyan Theme */
+    /* RosterSync와 확실히 구분되는 밝고 경쾌한 청록색 적용 */
+    .manual-sync { border-bottom: 4px solid #06b6d4; }
+    .manual-sync .app-name, .manual-sync .app-slogan { color: #22d3ee; }
+    .manual-sync .download-btn { background: #06b6d4; color: #083344; }
+    .manual-sync .download-btn:hover { background: #22d3ee; box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); }
 
     footer {
-      width: 100%; max-width: 1200px; text-align: center; padding: 40px 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.06); font-size: 14px; color: #94a3b8;
+      width: 100%; max-width: 1200px; text-align: center; padding: 60px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06); font-size: 14px; color: #64748b;
     }
+    footer a { color: #94a3b8; }
   </style>
 </head>
 <body>
@@ -110,8 +124,8 @@
       <circle cx="30" cy="28" r="3" fill="#fbbf24"/>
       <circle cx="20" cy="38" r="2" fill="#f8fafc" opacity="0.6"/>
       <circle cx="40" cy="38" r="2" fill="#f8fafc" opacity="0.6"/>
-      <text x="70" y="35" font-family="-apple-system, sans-serif" font-size="24" font-weight="bold" fill="#f8fafc">AeroSync</text>
-      <text x="70" y="50" font-family="-apple-system, sans-serif" font-size="12" font-weight="300" fill="#94a3b8" letter-spacing="3">STUDIO</text>
+      <text x="70" y="35" font-family="sans-serif" font-size="24" font-weight="bold" fill="#f8fafc">AeroSync</text>
+      <text x="70" y="50" font-family="sans-serif" font-size="12" font-weight="300" fill="#94a3b8" letter-spacing="3">STUDIO</text>
     </svg>
   </header>
 
@@ -132,17 +146,12 @@
     <section class="app-card roster-sync">
       <img src="image_0.png" alt="RosterSync 앱 아이콘" class="app-icon">
       <h2 class="app-name">RosterSync</h2>
-      <p class="app-slogan">안드로이드 버전 정식 출시!</p>
-      <p class="app-desc">항공사 승무원들의 복잡한 스케줄을 쉽게 파싱하고, 동료들과 실시간으로 공유하세요. 이제 iOS와 안드로이드 모두에서 경험할 수 있습니다.</p>
+      <p class="app-slogan">크루를 위한 스마트 스케줄 공유</p>
+      <p class="app-desc">항공사 승무원들의 복잡한 스케줄을 쉽게 파싱하고, 동료들과 실시간으로 공유하세요. iOS와 안드로이드 모두에서 경험할 수 있습니다.</p>
       <div class="app-links">
-        <div class="store-buttons">
-          <a href="https://apps.apple.com/app/id6759645143" target="_blank" class="download-btn apple">
-            <i class="fab fa-apple"></i>iOS 앱스토어
-          </a>
-          <a href="https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync" target="_blank" class="download-btn google">
-            <i class="fab fa-google-play"></i>Google Play
-          </a>
-        </div>
+        <a href="https://apps.apple.com/app/id6759645143" target="_blank" class="download-btn">
+          <i class="fab fa-apple"></i>App Store
+        </a>
         <a href="privacy-rostersync.html" class="privacy-link">개인정보처리방침</a>
       </div>
     </section>
@@ -151,19 +160,18 @@
       <img src="image_manualsync.png" alt="ManualSync 앱 아이콘" class="app-icon">
       <h2 class="app-name">ManualSync</h2>
       <p class="app-slogan">PDF 매뉴얼 개정 작업의 혁신</p>
-      <p class="app-desc">새로 나온 개정판 매뉴얼에 기존의 북마크와 하이라이트를 단 몇 초 만에 옮기세요. 기장님의 소중한 휴일, 이제 매뉴얼 작업 대신 휴식에 집중하세요.</p>
+      <p class="app-desc">개정판 매뉴얼이 나올 때마다 고통받던 시간을 끝내세요. 기존 북마크와 하이라이트를 정밀 매칭 기술로 단 몇 초 만에 완벽하게 옮겨줍니다.</p>
       <div class="app-links">
-        <a href="#" target="_blank" class="download-btn manual">
+        <a href="#" target="_blank" class="download-btn">
           <i class="fab fa-apple"></i>App Store (준비중)
         </a>
         <a href="privacy-manualsync.html" class="privacy-link">개인정보처리방침</a>
       </div>
     </section>
-  
   </main>
 
   <footer>
-    <p> 문의: <a href="mailto:contact@aerosyncstudio.kr">contact@aerosyncstudio.kr</a></p>
+    <p>문의: <a href="mailto:contact@aerosyncstudio.kr">contact@aerosyncstudio.kr</a></p>
     <p>© 2026 AeroSync Studio. All rights reserved.</p>
   </footer>
 
