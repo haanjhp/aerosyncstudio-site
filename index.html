@@ -8,14 +8,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <style>
-    /* 기존 프리미엄 스타일 유지 */
+    /* 1. 레이아웃 안정화 설정 */
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      /* 스크롤바가 생겨도 화면 밀림 방지 */
+      scrollbar-gutter: stable;
+    }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK KR", sans-serif;
       background: #020617;
       color: #f8fafc;
       display: flex; flex-direction: column; align-items: center;
       min-height: 100vh; padding: 20px;
+      overflow-x: hidden; /* 가로 스크롤 절대 방지 */
     }
     body::before {
       content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -23,24 +28,37 @@
       z-index: -1;
     }
 
-    header { width: 100%; max-width: 1200px; text-align: center; padding: 40px 0 20px; position: relative; }
+    header { width: 100%; max-width: 1200px; text-align: center; padding: 60px 0 40px; }
     header svg { width: 280px; height: auto; filter: drop-shadow(0 0 15px rgba(255,255,255,0.1)); }
 
-    /* 언어 스위처 스타일 */
+    /* 2. 언어 스위처 우상단 고정 */
     .lang-switcher {
-      display: flex; justify-content: center; gap: 8px; margin-bottom: 30px;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 6px;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 5px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     .lang-btn {
-      background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #94a3b8; padding: 6px 14px; border-radius: 10px; font-size: 13px;
-      font-weight: 600; cursor: pointer; transition: 0.2s;
+      background: transparent; border: none;
+      color: #94a3b8; padding: 6px 10px; border-radius: 8px; font-size: 12px;
+      font-weight: 700; cursor: pointer; transition: 0.2s;
     }
-    .lang-btn:hover { background: rgba(255, 255, 255, 0.1); }
-    .lang-btn.active { background: rgba(255, 255, 255, 0.2); color: #fff; border-color: rgba(255, 255, 255, 0.3); }
+    .lang-btn:hover { color: #fff; }
+    .lang-btn.active { background: #3b82f6; color: #fff; }
 
+    /* 3. 카드 레이아웃 고정 */
     main { 
       width: 100%; max-width: 1200px; 
-      display: grid; grid-template-columns: 1fr; gap: 25px; padding-bottom: 80px; 
+      display: grid; grid-template-columns: 1fr; gap: 25px; padding-bottom: 80px;
+      /* 그리드 크기를 미리 예약해서 출렁임 방지 */
+      grid-auto-rows: 1fr;
     }
     @media (min-width: 768px) { main { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 1024px) { main { grid-template-columns: repeat(3, 1fr); } }
@@ -49,19 +67,34 @@
       background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       border-radius: 28px; padding: 40px 24px; text-align: center; display: flex; flex-direction: column; align-items: center;
       border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      width: 100%; /* 너비 강제 고정 */
     }
-    .app-card:hover { transform: translateY(-10px); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); }
+    .app-card:hover { transform: translateY(-10px); border-color: rgba(255, 255, 255, 0.2); }
 
-    .app-icon { width: 100px; height: 100px; border-radius: 22px; margin-bottom: 24px; object-fit: cover; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
-    .app-name { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
-    .app-slogan { font-size: 14px; font-weight: 600; margin-bottom: 16px; opacity: 0.8; height: 1.2em; }
-    .app-desc { font-size: 14.5px; line-height: 1.6; color: #cbd5e1; margin-bottom: 25px; flex-grow: 1; word-break: keep-all; }
+    .app-icon { width: 100px; height: 100px; border-radius: 22px; margin-bottom: 24px; object-fit: cover; }
+    .app-name { font-size: 24px; font-weight: 800; margin-bottom: 8px; white-space: nowrap; }
+    
+    /* 슬로건 높이 고정 (출렁임 방지 핵심) */
+    .app-slogan { 
+      font-size: 14px; font-weight: 600; margin-bottom: 16px; color: inherit;
+      min-height: 40px; display: flex; align-items: center; justify-content: center;
+    }
 
-    .app-links { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+    /* 설명문 줄바꿈 정책 수정 (출렁임 방지 핵심) */
+    .app-desc { 
+      font-size: 14.5px; line-height: 1.6; color: #cbd5e1; margin-bottom: 25px; flex-grow: 1;
+      text-align: center;
+      word-break: normal; /* 기본 정책 */
+      overflow-wrap: break-word; /* 긴 단어나 CJK 대응 */
+      word-wrap: break-word;
+    }
+
+    .app-links { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
     .download-btn {
       width: 100%; display: inline-flex; align-items: center; justify-content: center;
-      padding: 12px 16px; border-radius: 12px; font-weight: 700; font-size: 13.5px;
+      padding: 12px 16px; border-radius: 12px; font-weight: 700; font-size: 13px;
       text-decoration: none; transition: all 0.2s;
+      white-space: nowrap;
     }
     .download-btn i { margin-right: 8px; font-size: 16px; }
     .download-btn.disabled {
@@ -70,28 +103,34 @@
     }
 
     .privacy-link { font-size: 12px; color: #64748b; text-decoration: none; margin-top: 12px; }
-    .privacy-link:hover { color: #94a3b8; }
 
     /* Accent Borders */
     .paper-log { border-bottom: 4px solid #f59e0b; }
-    .paper-log .app-name, .paper-log .app-slogan { color: #fbbf24; }
     .paper-log .download-btn:not(.disabled) { background: #f59e0b; color: #451a03; }
-
     .roster-sync { border-bottom: 4px solid #3b82f6; }
-    .roster-sync .app-name, .roster-sync .app-slogan { color: #60a5fa; }
     .roster-sync .download-btn:not(.disabled) { background: #3b82f6; color: white; }
-
     .manual-sync { border-bottom: 4px solid #06b6d4; }
-    .manual-sync .app-name, .manual-sync .app-slogan { color: #22d3ee; }
     .manual-sync .download-btn:not(.disabled) { background: #06b6d4; color: #083344; }
 
     footer {
       width: 100%; max-width: 1200px; text-align: center; padding: 60px 0;
       border-top: 1px solid rgba(255, 255, 255, 0.06); font-size: 14px; color: #64748b;
     }
+
+    /* 모바일에서 언어 버튼 위치 조정 */
+    @media (max-width: 600px) {
+      .lang-switcher { top: 10px; right: 10px; scale: 0.9; }
+    }
   </style>
 </head>
 <body>
+
+  <div class="lang-switcher">
+    <button id="btn-ko" class="lang-btn" onclick="setLanguage('ko')">KO</button>
+    <button id="btn-en" class="lang-btn" onclick="setLanguage('en')">EN</button>
+    <button id="btn-ja" class="lang-btn" onclick="setLanguage('ja')">JA</button>
+    <button id="btn-zh" class="lang-btn" onclick="setLanguage('zh')">ZH</button>
+  </div>
 
   <header>
     <svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg">
@@ -105,13 +144,6 @@
     </svg>
   </header>
 
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLanguage('ko')">KO</button>
-    <button class="lang-btn" onclick="setLanguage('en')">EN</button>
-    <button class="lang-btn" onclick="setLanguage('ja')">JA</button>
-    <button class="lang-btn" onclick="setLanguage('zh')">ZH</button>
-  </div>
-
   <main id="app-grid">
     </main>
 
@@ -123,91 +155,35 @@
   <script>
     const translations = {
       ko: {
-        contact: "문의: contact@aerosyncstudio.kr",
-        comingSoon: "준비중",
-        privacy: "개인정보처리방침",
+        contact: "문의: contact@aerosyncstudio.kr", comingSoon: "준비중", privacy: "개인정보처리방침",
         apps: [
-          {
-            class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "프리미엄 디지털 로그북",
-            desc: "조종사의 가장 소중한 비행 기록을 아날로그 감성으로 담아냅니다. 스케줄 자동 파싱으로 완벽한 로그를 완성하세요.",
-            ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html"
-          },
-          {
-            class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "스마트 스케줄 공유 솔루션",
-            desc: "항공사 승무원들의 복잡한 스케줄을 쉽게 파싱하고 공유하세요. 동료들과의 실시간 연동을 지원합니다.",
-            ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html"
-          },
-          {
-            class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "PDF 매뉴얼 개정 작업의 혁신",
-            desc: "개정판 매뉴얼이 나올 때마다 고통받던 시간을 끝내세요. 기존 북마크와 하이라이트를 정밀 매칭 기술로 즉시 옮겨줍니다.",
-            ios: "#", google: "#", privacy: "privacy-manualsync.html"
-          }
+          { class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "프리미엄 디지털 로그북", desc: "조종사의 가장 소중한 비행 기록을 아날로그 감성으로 담아냅니다. 스케줄 자동 파싱으로 완벽한 로그를 완성하세요.", ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html" },
+          { class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "스마트 스케줄 공유 솔루션", desc: "항공사 승무원들의 복잡한 스케줄을 쉽게 파싱하고 공유하세요. 동료들과의 실시간 연동을 지원합니다.", ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html" },
+          { class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "PDF 매뉴얼 개정 작업의 혁신", desc: "개정판 매뉴얼이 나올 때마다 고통받던 시간을 끝내세요. 기존 북마크와 하이라이트를 정밀 매칭 기술로 즉시 옮겨줍니다.", ios: "#", google: "#", privacy: "privacy-manualsync.html" }
         ]
       },
       en: {
-        contact: "Contact: contact@aerosyncstudio.kr",
-        comingSoon: "Coming Soon",
-        privacy: "Privacy Policy",
+        contact: "Contact: contact@aerosyncstudio.kr", comingSoon: "Coming Soon", privacy: "Privacy Policy",
         apps: [
-          {
-            class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "Premium Digital Logbook",
-            desc: "Preserve your most precious flight records with an analog touch. Complete your logs perfectly with automatic schedule parsing.",
-            ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html"
-          },
-          {
-            class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "Smart Schedule Sharing",
-            desc: "Parse and share complex airline crew schedules with ease. Supports real-time synchronization with colleagues.",
-            ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html"
-          },
-          {
-            class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "Innovating PDF Manual Revision",
-            desc: "End the struggle with every new manual revision. Effortlessly transfer bookmarks and highlights using high-precision matching.",
-            ios: "#", google: "#", privacy: "privacy-manualsync.html"
-          }
+          { class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "Premium Digital Logbook", desc: "Preserve your most precious flight records with an analog touch. Complete your logs perfectly with automatic schedule parsing.", ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html" },
+          { class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "Smart Schedule Sharing", desc: "Parse and share complex airline crew schedules with ease. Supports real-time synchronization with colleagues.", ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html" },
+          { class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "Innovating PDF Manual Revision", desc: "End the struggle with every new manual revision. Effortlessly transfer bookmarks and highlights using high-precision matching.", ios: "#", google: "#", privacy: "privacy-manualsync.html" }
         ]
       },
       ja: {
-        contact: "お問い合わせ: contact@aerosyncstudio.kr",
-        comingSoon: "準備中",
-        privacy: "プライバシーポリシー",
+        contact: "お問い合わせ: contact@aerosyncstudio.kr", comingSoon: "準備中", privacy: "プライバシーポリシー",
         apps: [
-          {
-            class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "プレミアムデジタルログブック",
-            desc: "パイロットの最も大切な飛行記録をアナログの感性で綴ります。スケジュール自動解析で完璧なログを作成しましょう。",
-            ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html"
-          },
-          {
-            class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "スマートなスケジュール共有",
-            desc: "航空会社の乗務員の複雑なスケジュールを簡単に解析して共有。同僚とのリアルタイム連動をサポートします。",
-            ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html"
-          },
-          {
-            class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "PDFマニュアル改訂の革新",
-            desc: "マニュアル改訂のたびに費やしていた時間を終わらせましょう。既存の注釈としおりを高精度マッチングで即座に移行します。",
-            ios: "#", google: "#", privacy: "privacy-manualsync.html"
-          }
+          { class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "プレミアムデジタルログブック", desc: "パイロットの最も大切な飛行記録을 アナログの感性で綴ります。スケジュール自動解析で完璧なログを作成しましょう。", ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html" },
+          { class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "スマートなスケジュール共有", desc: "航空会社の乗務員の複雑なスケジュールを簡単に解析して共有。同僚とのリアルタイム連動をサポートします。", ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html" },
+          { class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "PDFマニュアル改訂の革新", desc: "マニュアル改訂のたびに費やしていた時間を終わらせましょう。既存の注釈としおりを高精度マッチングで即座に移行します。", ios: "#", google: "#", privacy: "privacy-manualsync.html" }
         ]
       },
       zh: {
-        contact: "联系我们: contact@aerosyncstudio.kr",
-        comingSoon: "准备中",
-        privacy: "隐私政策",
+        contact: "联系我们: contact@aerosyncstudio.kr", comingSoon: "准备中", privacy: "隐私政策",
         apps: [
-          {
-            class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "高级数字飞行日志",
-            desc: "以模拟感性记录飞行员最珍贵的飞行历程。通过自动解析排班，完美记录每一次飞行。",
-            ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html"
-          },
-          {
-            class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "智能排班共享方案",
-            desc: "轻松解析并共享航空公司机组人员的复杂排班。支持与同事间的实时同步。",
-            ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html"
-          },
-          {
-            class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "PDF手册改版助手",
-            desc: "告别改版手册时的繁琐操作。利用高精度匹配技术，秒级完成注释与书签的无缝迁移。",
-            ios: "#", google: "#", privacy: "privacy-manualsync.html"
-          }
+          { class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "高级数字飞行日志", desc: "以模拟感性记录飞行员最珍贵的飞行历程。通过自动解析排班，完美记录每一次飞行。", ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html" },
+          { class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "智能排班共享方案", desc: "轻松解析并共享航空公司机组人员的复杂排班。支持与同事间的实时同步。", ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html" },
+          { class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "PDF手册改版助手", desc: "告别改版手册时的繁琐操作。利用高精度匹配技术，秒级完成注释与书签的无缝迁移。", ios: "#", google: "#", privacy: "privacy-manualsync.html" }
         ]
       }
     };
@@ -215,7 +191,7 @@
     function setLanguage(lang) {
       const data = translations[lang];
       const grid = document.getElementById('app-grid');
-      grid.innerHTML = ''; // 초기화
+      grid.innerHTML = '';
 
       data.apps.forEach(app => {
         const iosDisabled = app.ios === "#" ? "disabled" : "";
@@ -223,37 +199,26 @@
         const iosText = app.ios === "#" ? `App Store (${data.comingSoon})` : "App Store";
         const googleText = app.google === "#" ? `Google Play (${data.comingSoon})` : "Google Play";
 
-        const card = `
+        grid.innerHTML += `
           <section class="app-card ${app.class}">
             <img src="${app.icon}" alt="${app.name}" class="app-icon">
             <h2 class="app-name">${app.name}</h2>
             <p class="app-slogan">${app.slogan}</p>
             <p class="app-desc">${app.desc}</p>
             <div class="app-links">
-              <a href="${app.ios}" class="download-btn ${iosDisabled}" target="_blank">
-                <i class="fab fa-apple"></i>${iosText}
-              </a>
-              <a href="${app.google}" class="download-btn ${googleDisabled}" target="_blank">
-                <i class="fab fa-google-play"></i>${googleText}
-              </a>
+              <a href="${app.ios}" class="download-btn ${iosDisabled}" target="_blank"><i class="fab fa-apple"></i>${iosText}</a>
+              <a href="${app.google}" class="download-btn ${googleDisabled}" target="_blank"><i class="fab fa-google-play"></i>${googleText}</a>
               <a href="${app.privacy}" class="privacy-link">${data.privacy}</a>
             </div>
-          </section>
-        `;
-        grid.innerHTML += card;
+          </section>`;
       });
 
       document.getElementById('footer-contact').innerText = data.contact;
-      
-      // 버튼 상태 업데이트
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.innerText.toLowerCase() === lang) btn.classList.add('active');
-      });
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`btn-${lang}`).classList.add('active');
       document.documentElement.lang = lang;
     }
 
-    // 초기 설정
     const userLang = navigator.language.substring(0, 2);
     setLanguage(translations[userLang] ? userLang : 'ko');
   </script>
