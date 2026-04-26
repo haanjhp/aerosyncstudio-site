@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AeroSync Studio - 혁신적인 항공 디지털 도구</title>
+  <title>AeroSync Studio - Innovative Aviation Digital Tools</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <style>
-    /* 기본 스타일 및 배경 */
+    /* 기존 프리미엄 스타일 유지 */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
@@ -23,38 +23,40 @@
       z-index: -1;
     }
 
-    header { width: 100%; max-width: 1200px; text-align: center; padding: 60px 0 40px; }
+    header { width: 100%; max-width: 1200px; text-align: center; padding: 40px 0 20px; position: relative; }
     header svg { width: 280px; height: auto; filter: drop-shadow(0 0 15px rgba(255,255,255,0.1)); }
 
-    /* 메인 그리드 */
+    /* 언어 스위처 스타일 */
+    .lang-switcher {
+      display: flex; justify-content: center; gap: 8px; margin-bottom: 30px;
+    }
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8; padding: 6px 14px; border-radius: 10px; font-size: 13px;
+      font-weight: 600; cursor: pointer; transition: 0.2s;
+    }
+    .lang-btn:hover { background: rgba(255, 255, 255, 0.1); }
+    .lang-btn.active { background: rgba(255, 255, 255, 0.2); color: #fff; border-color: rgba(255, 255, 255, 0.3); }
+
     main { 
       width: 100%; max-width: 1200px; 
-      display: grid; 
-      grid-template-columns: 1fr; 
-      gap: 25px; 
-      padding-bottom: 80px; 
+      display: grid; grid-template-columns: 1fr; gap: 25px; padding-bottom: 80px; 
     }
     @media (min-width: 768px) { main { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 1024px) { main { grid-template-columns: repeat(3, 1fr); } }
 
-    /* 앱 카드 디자인 */
     .app-card {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 28px; padding: 40px 24px; 
-      text-align: center; display: flex; flex-direction: column; align-items: center;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-radius: 28px; padding: 40px 24px; text-align: center; display: flex; flex-direction: column; align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .app-card:hover { transform: translateY(-10px); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); }
 
     .app-icon { width: 100px; height: 100px; border-radius: 22px; margin-bottom: 24px; object-fit: cover; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
     .app-name { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
-    .app-slogan { font-size: 14px; font-weight: 600; margin-bottom: 16px; opacity: 0.8; }
+    .app-slogan { font-size: 14px; font-weight: 600; margin-bottom: 16px; opacity: 0.8; height: 1.2em; }
     .app-desc { font-size: 14.5px; line-height: 1.6; color: #cbd5e1; margin-bottom: 25px; flex-grow: 1; word-break: keep-all; }
 
-    /* 버튼 레이아웃 */
     .app-links { width: 100%; display: flex; flex-direction: column; gap: 10px; }
     .download-btn {
       width: 100%; display: inline-flex; align-items: center; justify-content: center;
@@ -62,19 +64,15 @@
       text-decoration: none; transition: all 0.2s;
     }
     .download-btn i { margin-right: 8px; font-size: 16px; }
-    
-    /* 버튼 상태: 준비중 */
     .download-btn.disabled {
-      background: rgba(255, 255, 255, 0.05) !important;
-      color: rgba(255, 255, 255, 0.3) !important;
-      cursor: default; pointer-events: none;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.05) !important; color: rgba(255, 255, 255, 0.3) !important;
+      cursor: default; pointer-events: none; border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .privacy-link { font-size: 12px; color: #64748b; text-decoration: none; margin-top: 12px; }
     .privacy-link:hover { color: #94a3b8; }
 
-    /* 테마별 색상 */
+    /* Accent Borders */
     .paper-log { border-bottom: 4px solid #f59e0b; }
     .paper-log .app-name, .paper-log .app-slogan { color: #fbbf24; }
     .paper-log .download-btn:not(.disabled) { background: #f59e0b; color: #451a03; }
@@ -107,60 +105,157 @@
     </svg>
   </header>
 
-  <main>
-    <section class="app-card paper-log">
-      <img src="image_1.png" alt="Paper Log 앱 아이콘" class="app-icon">
-      <h2 class="app-name">Paper Log</h2>
-      <p class="app-slogan">프리미엄 디지털 로그북</p>
-      <p class="app-desc">조종사의 가장 소중한 비행 기록을 아날로그 감성으로 담아냅니다. 스케줄 자동 파싱으로 완벽한 로그를 완성하세요.</p>
-      <div class="app-links">
-        <a href="https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846" target="_blank" class="download-btn">
-          <i class="fab fa-apple"></i>App Store
-        </a>
-        <a href="#" class="download-btn disabled">
-          <i class="fab fa-google-play"></i>Google Play (준비중)
-        </a>
-        <a href="privacy-logbook.html" class="privacy-link">개인정보처리방침</a>
-      </div>
-    </section>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLanguage('ko')">KO</button>
+    <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+    <button class="lang-btn" onclick="setLanguage('ja')">JA</button>
+    <button class="lang-btn" onclick="setLanguage('zh')">ZH</button>
+  </div>
 
-    <section class="app-card roster-sync">
-      <img src="image_0.png" alt="RosterSync 앱 아이콘" class="app-icon">
-      <h2 class="app-name">RosterSync</h2>
-      <p class="app-slogan">스마트 스케줄 공유 솔루션</p>
-      <p class="app-desc">항공사 승무원들의 복잡한 스케줄을 쉽게 파싱하고 공유하세요. 동료들과의 실시간 연동을 지원합니다.</p>
-      <div class="app-links">
-        <a href="https://apps.apple.com/app/id6759645143" target="_blank" class="download-btn">
-          <i class="fab fa-apple"></i>App Store
-        </a>
-        <a href="https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync" target="_blank" class="download-btn">
-          <i class="fab fa-google-play"></i>Google Play
-        </a>
-        <a href="privacy-rostersync.html" class="privacy-link">개인정보처리방침</a>
-      </div>
-    </section>
-    
-    <section class="app-card manual-sync">
-      <img src="image_manualsync.png" alt="ManualSync 앱 아이콘" class="app-icon">
-      <h2 class="app-name">ManualSync</h2>
-      <p class="app-slogan">PDF 매뉴얼 개정 작업의 혁신</p>
-      <p class="app-desc">개정판 매뉴얼이 나올 때마다 고통받던 시간을 끝내세요. 기존 북마크와 하이라이트를 단 몇 초 만에 완벽하게 옮겨줍니다.</p>
-      <div class="app-links">
-        <a href="#" class="download-btn disabled">
-          <i class="fab fa-apple"></i>App Store (준비중)
-        </a>
-        <a href="#" class="download-btn disabled">
-          <i class="fab fa-google-play"></i>Google Play (준비중)
-        </a>
-        <a href="privacy-manualsync.html" class="privacy-link">개인정보처리방침</a>
-      </div>
-    </section>
-  </main>
+  <main id="app-grid">
+    </main>
 
   <footer>
-    <p>문의: <a href="mailto:contact@aerosyncstudio.kr">contact@aerosyncstudio.kr</a></p>
+    <p id="footer-contact">Contact: contact@aerosyncstudio.kr</p>
     <p>© 2026 AeroSync Studio. All rights reserved.</p>
   </footer>
 
+  <script>
+    const translations = {
+      ko: {
+        contact: "문의: contact@aerosyncstudio.kr",
+        comingSoon: "준비중",
+        privacy: "개인정보처리방침",
+        apps: [
+          {
+            class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "프리미엄 디지털 로그북",
+            desc: "조종사의 가장 소중한 비행 기록을 아날로그 감성으로 담아냅니다. 스케줄 자동 파싱으로 완벽한 로그를 완성하세요.",
+            ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html"
+          },
+          {
+            class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "스마트 스케줄 공유 솔루션",
+            desc: "항공사 승무원들의 복잡한 스케줄을 쉽게 파싱하고 공유하세요. 동료들과의 실시간 연동을 지원합니다.",
+            ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html"
+          },
+          {
+            class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "PDF 매뉴얼 개정 작업의 혁신",
+            desc: "개정판 매뉴얼이 나올 때마다 고통받던 시간을 끝내세요. 기존 북마크와 하이라이트를 정밀 매칭 기술로 즉시 옮겨줍니다.",
+            ios: "#", google: "#", privacy: "privacy-manualsync.html"
+          }
+        ]
+      },
+      en: {
+        contact: "Contact: contact@aerosyncstudio.kr",
+        comingSoon: "Coming Soon",
+        privacy: "Privacy Policy",
+        apps: [
+          {
+            class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "Premium Digital Logbook",
+            desc: "Preserve your most precious flight records with an analog touch. Complete your logs perfectly with automatic schedule parsing.",
+            ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html"
+          },
+          {
+            class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "Smart Schedule Sharing",
+            desc: "Parse and share complex airline crew schedules with ease. Supports real-time synchronization with colleagues.",
+            ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html"
+          },
+          {
+            class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "Innovating PDF Manual Revision",
+            desc: "End the struggle with every new manual revision. Effortlessly transfer bookmarks and highlights using high-precision matching.",
+            ios: "#", google: "#", privacy: "privacy-manualsync.html"
+          }
+        ]
+      },
+      ja: {
+        contact: "お問い合わせ: contact@aerosyncstudio.kr",
+        comingSoon: "準備中",
+        privacy: "プライバシーポリシー",
+        apps: [
+          {
+            class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "プレミアムデジタルログブック",
+            desc: "パイロットの最も大切な飛行記録をアナログの感性で綴ります。スケジュール自動解析で完璧なログを作成しましょう。",
+            ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html"
+          },
+          {
+            class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "スマートなスケジュール共有",
+            desc: "航空会社の乗務員の複雑なスケジュールを簡単に解析して共有。同僚とのリアルタイム連動をサポートします。",
+            ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html"
+          },
+          {
+            class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "PDFマニュアル改訂の革新",
+            desc: "マニュアル改訂のたびに費やしていた時間を終わらせましょう。既存の注釈としおりを高精度マッチングで即座に移行します。",
+            ios: "#", google: "#", privacy: "privacy-manualsync.html"
+          }
+        ]
+      },
+      zh: {
+        contact: "联系我们: contact@aerosyncstudio.kr",
+        comingSoon: "准备中",
+        privacy: "隐私政策",
+        apps: [
+          {
+            class: "paper-log", icon: "image_1.png", name: "Paper Log", slogan: "高级数字飞行日志",
+            desc: "以模拟感性记录飞行员最珍贵的飞行历程。通过自动解析排班，完美记录每一次飞行。",
+            ios: "https://apps.apple.com/us/app/paperlog-pilot-logbook/id6760224846", google: "#", privacy: "privacy-logbook.html"
+          },
+          {
+            class: "roster-sync", icon: "image_0.png", name: "RosterSync", slogan: "智能排班共享方案",
+            desc: "轻松解析并共享航空公司机组人员的复杂排班。支持与同事间的实时同步。",
+            ios: "https://apps.apple.com/app/id6759645143", google: "https://play.google.com/store/apps/details?id=com.aerosyncstudio.rostersync", privacy: "privacy-rostersync.html"
+          },
+          {
+            class: "manual-sync", icon: "image_manualsync.png", name: "ManualSync", slogan: "PDF手册改版助手",
+            desc: "告别改版手册时的繁琐操作。利用高精度匹配技术，秒级完成注释与书签的无缝迁移。",
+            ios: "#", google: "#", privacy: "privacy-manualsync.html"
+          }
+        ]
+      }
+    };
+
+    function setLanguage(lang) {
+      const data = translations[lang];
+      const grid = document.getElementById('app-grid');
+      grid.innerHTML = ''; // 초기화
+
+      data.apps.forEach(app => {
+        const iosDisabled = app.ios === "#" ? "disabled" : "";
+        const googleDisabled = app.google === "#" ? "disabled" : "";
+        const iosText = app.ios === "#" ? `App Store (${data.comingSoon})` : "App Store";
+        const googleText = app.google === "#" ? `Google Play (${data.comingSoon})` : "Google Play";
+
+        const card = `
+          <section class="app-card ${app.class}">
+            <img src="${app.icon}" alt="${app.name}" class="app-icon">
+            <h2 class="app-name">${app.name}</h2>
+            <p class="app-slogan">${app.slogan}</p>
+            <p class="app-desc">${app.desc}</p>
+            <div class="app-links">
+              <a href="${app.ios}" class="download-btn ${iosDisabled}" target="_blank">
+                <i class="fab fa-apple"></i>${iosText}
+              </a>
+              <a href="${app.google}" class="download-btn ${googleDisabled}" target="_blank">
+                <i class="fab fa-google-play"></i>${googleText}
+              </a>
+              <a href="${app.privacy}" class="privacy-link">${data.privacy}</a>
+            </div>
+          </section>
+        `;
+        grid.innerHTML += card;
+      });
+
+      document.getElementById('footer-contact').innerText = data.contact;
+      
+      // 버튼 상태 업데이트
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.innerText.toLowerCase() === lang) btn.classList.add('active');
+      });
+      document.documentElement.lang = lang;
+    }
+
+    // 초기 설정
+    const userLang = navigator.language.substring(0, 2);
+    setLanguage(translations[userLang] ? userLang : 'ko');
+  </script>
 </body>
 </html>
